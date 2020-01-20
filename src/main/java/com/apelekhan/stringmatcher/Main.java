@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    private static List<AhoCorasick.MatchResult> matchStrings(String[] dictionary, String fileName) {
+    private static List<MatchResult> matchStrings(String[] dictionary, String fileName) {
         try {
             String content = new String(Files.readAllBytes(Paths.get(fileName)));
-            return AhoCorasick.matchStrings(dictionary, content);
+            return AhoCorasick.matchStrings(dictionary, content, true);
         } catch (IOException exception) {
             return new ArrayList<>();
         }
@@ -19,9 +19,9 @@ public class Main {
     public static void main(String[] args) {
         String[] dictionary = {"the", "dictionary", "aa"};
 
-        List<AhoCorasick.MatchResult> results = matchStrings(dictionary, "text.txt");
+        List<MatchResult> results = matchStrings(dictionary, "text.txt");
 
-        for (AhoCorasick.MatchResult result : results) {
+        for (MatchResult result : results) {
             System.out.println("Found " + result.getString() + " at " + result.getPosition());
         }
     }

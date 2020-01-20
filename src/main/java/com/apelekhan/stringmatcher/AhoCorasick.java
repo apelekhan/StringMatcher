@@ -52,24 +52,6 @@ class TrieNode {
 }
 
 public class AhoCorasick {
-    public static class MatchResult {
-        public MatchResult(String string, int position) {
-            this.string = string;
-            this.position = position;
-        }
-
-        public String getString() {
-            return string;
-        }
-
-        public int getPosition() {
-            return position;
-        }
-
-        private String string;
-        private int position;
-    }
-
     private static TrieNode buildTrie(String[] dictionary) {
         TrieNode rootNode = new TrieNode('$');
 
@@ -121,7 +103,7 @@ public class AhoCorasick {
         return rootNode;
     }
 
-    public static List<MatchResult> matchStrings(String[] dictionary, String text) {
+    public static List<MatchResult> matchStrings(String[] dictionary, String text, boolean caseSensitive) {
         TrieNode rootNode = buildTrie(dictionary);
 
         List<MatchResult> results = new ArrayList<>();

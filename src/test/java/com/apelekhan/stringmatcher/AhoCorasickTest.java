@@ -10,8 +10,8 @@ class AhoCorasickTest {
 
     @Test
     void matchWholeString() {
-        List<AhoCorasick.MatchResult> results =
-                AhoCorasick.matchStrings(new String[]{"Aho-Corasick"}, "Aho-Corasick");
+        List<MatchResult> results =
+                AhoCorasick.matchStrings(new String[]{"Aho-Corasick"}, "Aho-Corasick", true);
 
         assertEquals(results.size(), 1);
         assertEquals(results.get(0).getPosition(), 0);
@@ -20,8 +20,8 @@ class AhoCorasickTest {
 
     @Test
     void matchStringWithNewline() {
-        List<AhoCorasick.MatchResult> results =
-                AhoCorasick.matchStrings(new String[]{"hello world"}, "hello world\nhello\nworld");
+        List<MatchResult> results =
+                AhoCorasick.matchStrings(new String[]{"hello world"}, "hello world\nhello\nworld", true);
 
         assertEquals(results.size(), 1);
         assertEquals(results.get(0).getPosition(), 0);
@@ -30,8 +30,8 @@ class AhoCorasickTest {
 
     @Test
     void matchPrefixStrings() {
-        List<AhoCorasick.MatchResult> results =
-                AhoCorasick.matchStrings(new String[]{"aa", "aab"}, "baab");
+        List<MatchResult> results =
+                AhoCorasick.matchStrings(new String[]{"aa", "aab"}, "baab", true);
 
         assertEquals(results.size(), 2);
         assertEquals(results.get(0).getPosition(), 1);
@@ -42,8 +42,8 @@ class AhoCorasickTest {
 
     @Test
     void matchRepeatingString() {
-        List<AhoCorasick.MatchResult> results =
-                AhoCorasick.matchStrings(new String[]{"aa", "aac"}, "aaacaac");
+        List<MatchResult> results =
+                AhoCorasick.matchStrings(new String[]{"aa", "aac"}, "aaacaac", true);
 
         assertEquals(results.size(), 5);
         assertEquals(results.get(0).getPosition(), 0);
@@ -60,16 +60,16 @@ class AhoCorasickTest {
 
     @Test
     void matchStringFail() {
-        List<AhoCorasick.MatchResult> results =
-                AhoCorasick.matchStrings(new String[]{"aaa", "bbb"}, "aabb");
+        List<MatchResult> results =
+                AhoCorasick.matchStrings(new String[]{"aaa", "bbb"}, "aabb", true);
 
         assertEquals(results.size(), 0);
     }
 
     @Test
     void matchLastSymbol() {
-        List<AhoCorasick.MatchResult> results =
-                AhoCorasick.matchStrings(new String[]{"a"}, "cbcbcbcbca");
+        List<MatchResult> results =
+                AhoCorasick.matchStrings(new String[]{"a"}, "cbcbcbcbca", true);
 
         assertEquals(results.size(), 1);
         assertEquals(results.get(0).getPosition(), 9);
@@ -79,8 +79,8 @@ class AhoCorasickTest {
     // bug injection
     @Test
     void matchThreePrefixStrings() {
-        List<AhoCorasick.MatchResult> results =
-                AhoCorasick.matchStrings(new String[]{"a", "aa", "aaa"}, "aaa");
+        List<MatchResult> results =
+                AhoCorasick.matchStrings(new String[]{"a", "aa", "aaa"}, "aaa", true);
 
         assertEquals(results.size(), 6);
         assertEquals(results.get(0).getPosition(), 0);
@@ -89,5 +89,15 @@ class AhoCorasickTest {
         assertEquals(results.get(1).getString(), "aa");
         assertEquals(results.get(2).getPosition(), 0);
         assertEquals(results.get(2).getString(), "aaa");
+    }
+
+    @Test
+    void matchCaseInsensitive() {
+        List<MatchResult> results =
+                AhoCorasick.matchStrings(new String[]{"aaa"}, "Aaa", false);
+
+        assertEquals(results.size(), 1);
+        assertEquals(results.get(0).getPosition(), 0);
+        assertEquals(results.get(0).getString(), "Aaa");
     }
 }
